@@ -37,62 +37,44 @@
 
         [dir="rtl"] body { font-family: 'Cairo', 'Inter', sans-serif; }
 
-        /* Futuristic Grid Overlay */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
             background-size: 40px 40px; z-index: -1; pointer-events: none;
         }
 
-        /* Top Navigation Bar */
         .top-bar {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 10px;
-            margin-bottom: 20px;
+            width: 100%; max-width: 800px; display: flex; justify-content: space-between;
+            align-items: center; padding-top: 10px; margin-bottom: 20px;
         }
 
         .lang-switch {
-            display: flex; gap: 5px;
-            background: var(--glass-bg); backdrop-filter: blur(10px);
+            display: flex; gap: 5px; background: var(--glass-bg); backdrop-filter: blur(10px);
             padding: 5px; border-radius: 30px; border: 1px solid var(--border);
-            box-shadow: 0 0 15px rgba(0,255,204,0.1);
         }
         .lang-btn {
             background: transparent; border: none; color: var(--text-muted);
             padding: 6px 14px; border-radius: 20px; cursor: pointer;
             font-weight: bold; transition: all 0.3s ease; font-size: 0.9rem;
         }
-        .lang-btn.active { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary-glow); }
+        .lang-btn.active { background: var(--primary); color: #000; }
 
         .buy-btn-header {
             background: var(--gold); color: #000; border: none;
             padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem;
             cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(255,215,0,0.4);
         }
-        .buy-btn-header:hover { background: #ffea70; transform: scale(1.05); }
 
         .container { width: 100%; max-width: 800px; display: flex; flex-direction: column; flex: 1; z-index: 10; }
 
-        /* Brand */
         .brand { text-align: center; margin-bottom: 25px; margin-top: 10px; }
         .brand h1 {
             font-size: 2.8rem; font-weight: 900; letter-spacing: -1px;
             background: linear-gradient(135deg, #ffffff 0%, #00ffcc 50%, #3b82f6 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 5px; text-shadow: 0 0 40px rgba(0, 255, 204, 0.3);
-            animation: pulseGlow 3s infinite alternate;
-        }
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 20px rgba(0, 255, 204, 0.2); }
-            100% { text-shadow: 0 0 50px rgba(0, 255, 204, 0.6); }
         }
         .brand p { color: var(--text-muted); font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* User Status Bar */
         .status-bar {
             display: flex; justify-content: space-between; align-items: center;
             background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px;
@@ -101,196 +83,96 @@
         .status-text { color: var(--text-muted); }
         .status-highlight { color: var(--primary); font-weight: bold; }
 
-        /* Tools Scrollable Area */
         .tools-wrapper { position: relative; width: 100%; margin-bottom: 20px; }
         .tools {
             display: flex; gap: 10px; overflow-x: auto; width: 100%;
-            padding-bottom: 10px; scroll-snap-type: x mandatory;
-            scrollbar-width: none; -ms-overflow-style: none;
-            padding-inline: 5px;
+            padding-bottom: 10px; scrollbar-width: none;
         }
         .tools::-webkit-scrollbar { display: none; }
-        
-        .tools-wrapper::after {
-            content: ""; position: absolute; top: 0; bottom: 10px; width: 30px; pointer-events: none; z-index: 2;
-        }
-        [dir="ltr"] .tools-wrapper::after { right: -5px; background: linear-gradient(to left, var(--bg-dark), transparent); }
-        [dir="rtl"] .tools-wrapper::after { left: -5px; background: linear-gradient(to right, var(--bg-dark), transparent); }
-
         .tool {
-            background: var(--glass-bg); backdrop-filter: blur(10px);
-            border: 1px solid var(--border); padding: 12px 15px; border-radius: 16px;
-            cursor: pointer; text-align: center; min-width: 90px;
-            scroll-snap-align: start;
-            transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center;
+            background: var(--glass-bg); border: 1px solid var(--border); padding: 12px 15px; border-radius: 16px;
+            cursor: pointer; text-align: center; min-width: 90px; transition: 0.3s;
         }
-        .tool:hover, .tool.active {
-            border-color: var(--primary); background: rgba(0, 255, 204, 0.05);
-            transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 255, 204, 0.15);
-        }
-        .tool-icon { font-size: 1.5rem; margin-bottom: 5px; filter: drop-shadow(0 0 10px rgba(0,255,204,0.4)); }
-        .tool-name { font-size: 0.75rem; font-weight: 700; color: var(--text-main); white-space: nowrap; }
+        .tool:hover, .tool.active { border-color: var(--primary); background: rgba(0, 255, 204, 0.05); transform: translateY(-3px); }
+        .tool-icon { font-size: 1.5rem; margin-bottom: 5px; }
+        .tool-name { font-size: 0.75rem; font-weight: 700; }
 
-        /* Chat Area */
         .chat-container {
             width: 100%; background: var(--glass-bg); backdrop-filter: blur(25px);
             border: 1px solid var(--border); border-radius: 24px; padding: 15px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(0, 255, 204, 0.1);
             display: flex; flex-direction: column; flex: 1; min-height: 400px; margin-bottom: 15px;
         }
 
         .chat-output {
             flex: 1; overflow-y: auto; margin-bottom: 15px;
-            display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth;
-            padding-inline: 5px;
+            display: flex; flex-direction: column; gap: 12px; padding-inline: 5px;
         }
-        
-        .message { padding: 12px 16px; border-radius: 16px; max-width: 90%; line-height: 1.5; font-size: 0.9rem; animation: fadeIn 0.5s ease; word-wrap: break-word; white-space: pre-wrap;}
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .msg-ai {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
-            align-self: flex-start; border-bottom-left-radius: 4px;
-        }
-        [dir="rtl"] .msg-ai { border-bottom-left-radius: 16px; border-bottom-right-radius: 4px; }
-        
-        .msg-user {
-            background: linear-gradient(135deg, #00ffcc 0%, #059669 100%);
-            color: #000; font-weight: 500;
-            align-self: flex-end; border-bottom-right-radius: 4px;
-        }
-        [dir="rtl"] .msg-user { border-bottom-right-radius: 16px; border-bottom-left-radius: 4px; }
-        
+        .message { padding: 12px 16px; border-radius: 16px; max-width: 90%; line-height: 1.5; font-size: 0.9rem; word-wrap: break-word; white-space: pre-wrap;}
+        .msg-ai { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg-user { background: linear-gradient(135deg, #00ffcc 0%, #059669 100%); color: #000; align-self: flex-end; border-bottom-right-radius: 4px; }
         .highlight { color: var(--gold); font-weight: 900; }
 
-        /* Input Area */
         .input-area { display: flex; gap: 8px; width: 100%; }
         input[type="text"] {
             flex: 1; background: rgba(0, 0, 0, 0.5); border: 1px solid var(--border);
-            color: var(--text-main); padding: 15px; border-radius: 16px;
-            font-family: inherit; font-size: 0.95rem; outline: none; transition: 0.3s; min-width: 0;
+            color: var(--text-main); padding: 15px; border-radius: 16px; outline: none; font-size: 0.95rem;
         }
-        input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
-        
         button.send-btn {
             background: var(--primary); color: #000; border: none;
-            padding: 0 20px; border-radius: 16px; font-weight: bold; font-size: 0.95rem;
-            cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px var(--primary-glow);
-            white-space: nowrap;
+            padding: 0 20px; border-radius: 16px; font-weight: bold; cursor: pointer; white-space: nowrap;
         }
-        button.send-btn:hover { background: #00cca3; transform: scale(1.05); }
-        button.send-btn:disabled { background: var(--text-muted); cursor: not-allowed; transform: none; box-shadow: none; }
+        button.send-btn:disabled { background: var(--text-muted); cursor: not-allowed; opacity: 0.5; }
+        input[type="text"]:disabled { cursor: not-allowed; opacity: 0.5; }
 
-        /* Modals (Onboarding, Limit, CAPTCHA) */
+        /* Modals */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
-            display: none; justify-content: center; align-items: flex-end; z-index: 1000;
-            padding-bottom: env(safe-area-inset-bottom, 0);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
         }
-        @media (min-width: 600px) { .modal-overlay { align-items: center; } }
-
         .modal {
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(30px);
-            padding: 25px 20px; border-radius: 24px 24px 0 0; width: 100%; max-width: 100%;
-            border: 1px solid var(--border); border-bottom: none;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(0, 255, 204, 0.2);
-            animation: slideUp 0.4s ease; max-height: 90vh; overflow-y: auto;
+            background: rgba(15, 23, 42, 0.95); padding: 25px 20px; border-radius: 24px;
+            width: 90%; max-width: 400px; border: 1px solid var(--border);
+            max-height: 90vh; overflow-y: auto;
         }
-        @media (min-width: 600px) {
-            .modal { border-radius: 24px; max-width: 400px; border-bottom: 1px solid var(--border); animation: zoomIn 0.4s ease; }
-            @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        
         .modal h2 { margin-bottom: 15px; color: #fff; text-align: center; font-size: 1.4rem; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; margin-bottom: 5px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
         .form-group input, .form-group select {
             width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border);
-            background: rgba(0,0,0,0.5); color: var(--text-main); font-family: inherit; outline: none; transition: 0.3s; font-size: 0.9rem;
+            background: rgba(0,0,0,0.5); color: var(--text-main); outline: none; font-size: 0.9rem;
         }
-        .form-group input:focus, .form-group select:focus { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
         
         .email-group { display: flex; gap: 8px; }
         .email-group input { flex: 1; }
         .email-group button { 
             padding: 0 12px; background: transparent; border: 1px solid var(--primary); 
-            color: var(--primary); border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.75rem; transition: 0.3s;
+            color: var(--primary); border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.75rem;
         }
-        .email-group button:hover { background: rgba(0, 255, 204, 0.1); }
-        .email-group button:disabled { border-color: var(--text-muted); color: var(--text-muted); cursor: not-allowed; }
 
         .modal > button {
             width: 100%; padding: 14px; background: var(--primary); color: #000;
-            border: none; border-radius: 12px; font-weight: 900; font-size: 1rem;
-            cursor: pointer; margin-top: 15px; transition: 0.3s; box-shadow: 0 0 20px var(--primary-glow);
+            border: none; border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 15px;
         }
-        .modal > button:hover { background: #00cca3; transform: scale(1.02); }
-
-        /* Timer Text */
+        
         .timer-text { font-size: 0.75rem; color: var(--gold); margin-top: 5px; display: none; font-weight: bold; }
 
-        /* Toast Notification */
-        .toast-container {
-            position: fixed; top: -120px; left: 50%; transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(10px);
-            border: 1px solid var(--primary); border-radius: 16px;
-            padding: 12px 18px; display: flex; flex-direction: column; align-items: center;
-            gap: 8px; z-index: 2000; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px var(--primary-glow); width: 90%; max-width: 320px;
-        }
-        .toast-container.show { top: 20px; }
-        .toast-title { color: var(--text-main); font-size: 0.85rem; font-weight: bold; }
-        .toast-code-box {
-            display: flex; align-items: center; justify-content: space-between; width: 100%;
-            background: rgba(0,0,0,0.5); padding: 8px 15px; border-radius: 10px;
-            border: 1px dashed var(--primary);
-        }
-        .toast-code { font-size: 1.4rem; font-weight: 900; color: var(--primary); letter-spacing: 3px; }
-        .toast-copy-btn {
-            background: var(--primary); color: #000; border: none; padding: 6px 12px;
-            border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.8rem;
-        }
-        .toast-copy-btn:hover { background: #00cca3; }
-        
-        /* Limit Modal Specific */
-        #limit-modal .modal { border-color: var(--gold); }
-        #limit-modal h2 { color: var(--gold); }
-        #limit-modal button { background: var(--gold); color: #000; box-shadow: 0 0 20px rgba(255,215,0,0.4); }
-        #limit-modal button:hover { background: #ffea70; }
-
-        /* CAPTCHA Styles */
-        #captcha-modal .modal { text-align: center; border-color: var(--primary); }
-        .captcha-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+        /* CAPTCHA */
         .hold-btn {
             width: 100%; padding: 15px; background: var(--glass-bg); color: var(--text-main);
-            border: 2px solid var(--primary); border-radius: 12px; font-weight: bold; font-size: 1rem;
+            border: 2px solid var(--primary); border-radius: 12px; font-weight: bold;
             cursor: pointer; position: relative; overflow: hidden; user-select: none;
-            -webkit-user-select: none; touch-action: none;
         }
         .progress-bar {
             position: absolute; top: 0; left: 0; height: 100%; width: 0%;
             background: var(--primary); opacity: 0.3; transition: width 0.1s linear;
         }
         .hold-text { position: relative; z-index: 2; pointer-events: none; }
-        
-        /* Ad Container */
-        #ad-container {
-            width: 100%; display: flex; justify-content: center; margin-bottom: 20px; min-height: 50px;
-        }
+
+        #ad-container { width: 100%; display: flex; justify-content: center; margin-bottom: 20px; min-height: 50px; }
     </style>
 </head>
 <body>
-
-    <!-- Custom Toast for Code -->
-    <div class="toast-container" id="toast">
-        <div class="toast-title" id="toast-title">Your Verification Code</div>
-        <div class="toast-code-box">
-            <span class="toast-code" id="toast-code-text">------</span>
-            <button class="toast-copy-btn" onclick="copyToastCode()" id="toast-copy-btn">Copy</button>
-        </div>
-    </div>
 
     <!-- Top Bar -->
     <div class="top-bar">
@@ -314,26 +196,11 @@
 
         <div class="tools-wrapper">
             <div class="tools">
-                <div class="tool active" onclick="selectTool('chat', this)">
-                    <div class="tool-icon">💬</div>
-                    <div class="tool-name" id="tool-chat">Chat</div>
-                </div>
-                <div class="tool" onclick="selectTool('image', this)">
-                    <div class="tool-icon">🎨</div>
-                    <div class="tool-name" id="tool-image">Image</div>
-                </div>
-                <div class="tool" onclick="selectTool('excel', this)">
-                    <div class="tool-icon">📊</div>
-                    <div class="tool-name" id="tool-excel">Excel</div>
-                </div>
-                <div class="tool" onclick="selectTool('pdf', this)">
-                    <div class="tool-icon">📄</div>
-                    <div class="tool-name" id="tool-pdf">PDF</div>
-                </div>
-                <div class="tool" onclick="selectTool('word', this)">
-                    <div class="tool-icon">📝</div>
-                    <div class="tool-name" id="tool-word">Word</div>
-                </div>
+                <div class="tool active" onclick="selectTool('chat', this)"><div class="tool-icon">💬</div><div class="tool-name" id="tool-chat">Chat</div></div>
+                <div class="tool" onclick="selectTool('image', this)"><div class="tool-icon">🎨</div><div class="tool-name" id="tool-image">Image</div></div>
+                <div class="tool" onclick="selectTool('excel', this)"><div class="tool-icon">📊</div><div class="tool-name" id="tool-excel">Excel</div></div>
+                <div class="tool" onclick="selectTool('pdf', this)"><div class="tool-icon">📄</div><div class="tool-name" id="tool-pdf">PDF</div></div>
+                <div class="tool" onclick="selectTool('word', this)"><div class="tool-icon">📝</div><div class="tool-name" id="tool-word">Word</div></div>
             </div>
         </div>
 
@@ -342,27 +209,24 @@
                 <div class="message msg-ai" id="welcome-msg"></div>
             </div>
             <div class="input-area">
-                <input type="text" id="user-input" placeholder="Ask Hakim anything..." onkeypress="handleKeyPress(event)">
-                <button class="send-btn" onclick="sendMessage()" id="send-btn">Send</button>
+                <!-- ورودی‌ها در ابتدا قفل هستند تا کاربر ثبت‌نام کند -->
+                <input type="text" id="user-input" placeholder="Please register first to chat..." onkeypress="handleKeyPress(event)" disabled>
+                <button class="send-btn" onclick="sendMessage()" id="send-btn" disabled>Send</button>
             </div>
         </div>
         
-        <!-- Ad Container -->
         <div id="ad-container">
             <script async="async" data-cfasync="false" src="https://bauval.org/21/62cbe1d193a0566be9b58d86a8730917"></script>
             <div id="container-62cbe1d193a0566be9b58d86a8730917"></div>
         </div>
-        
     </div>
 
-    <!-- Human Verification (CAPTCHA) Modal -->
+    <!-- CAPTCHA Modal -->
     <div class="modal-overlay" id="captcha-modal">
-        <div class="modal">
+        <div class="modal" style="text-align: center; border-color: var(--primary);">
             <h2 id="captcha-title">Human Verification</h2>
-            <p class="captcha-desc" id="captcha-desc">Hold the button below to prove you are human.</p>
-            <button class="hold-btn" id="hold-btn" 
-                onmousedown="startHold()" onmouseup="endHold()" onmouseleave="endHold()" 
-                ontouchstart="startHold(event)" ontouchend="endHold(event)">
+            <p class="captcha-desc" id="captcha-desc" style="margin-bottom: 20px; color: var(--text-muted);">Hold the button below to prove you are human.</p>
+            <button class="hold-btn" id="hold-btn" onmousedown="startHold()" onmouseup="endHold()" onmouseleave="endHold()" ontouchstart="startHold(event)" ontouchend="endHold(event)">
                 <div class="progress-bar" id="captcha-progress"></div>
                 <span class="hold-text" id="hold-text">Hold to Verify</span>
             </button>
@@ -373,71 +237,41 @@
     <div class="modal-overlay" id="onboarding-modal">
         <div class="modal">
             <h2 id="modal-title">Access Hakim Vahid</h2>
-            
             <div class="form-group">
                 <label id="label-email">Email Address</label>
                 <div class="email-group">
-                    <input type="email" id="input-email" placeholder="you@example.com">
+                    <input type="email" id="input-email" placeholder="you@gmail.com">
                     <button type="button" onclick="sendVerificationCode()" id="btn-send-code">Send Code</button>
                 </div>
             </div>
-
             <div class="form-group" id="verify-group" style="display: none;">
-                <label id="label-code">Verification Code</label>
+                <label id="label-code">Verification Code (Check your email)</label>
                 <input type="text" id="input-code" placeholder="Enter 6-digit code" maxlength="6">
                 <div class="timer-text" id="timer-text">Time left: 03:00</div>
             </div>
-
             <div class="form-group">
                 <label id="label-age">Age</label>
                 <input type="number" id="input-age" placeholder="e.g., 25" min="1">
             </div>
-
             <div class="form-group">
                 <label id="label-role">Your Profession</label>
                 <input type="text" id="input-role" placeholder="Engineer, Doctor, Student...">
             </div>
-
-            <div class="form-group">
-                <label id="label-goal">Primary Goal</label>
-                <select id="input-goal">
-                    <option value="writing">Writing & Research</option>
-                    <option value="coding">Coding & Analysis</option>
-                    <option value="business">Business & Finance</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            
             <button onclick="submitOnboarding()" id="btn-start">Initialize Platform</button>
         </div>
     </div>
 
-    <!-- Limit Reached Modal -->
-    <div class="modal-overlay" id="limit-modal">
-        <div class="modal">
-            <h2 id="limit-title">Daily Limit Reached</h2>
-            <p id="limit-text" style="text-align: center; color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">
-                You have used all 30 free questions for today. Upgrade to Premium for unlimited fast access!
-            </p>
-            <button onclick="buyPremium()" id="btn-buy-limit">⭐ Buy Premium (15 USD)</button>
-            <button onclick="closeLimitModal()" style="background: transparent; border: 1px solid var(--border); color: var(--text-main); margin-top: 10px;" id="btn-close-limit">Maybe Later</button>
-        </div>
-    </div>
-
     <script>
-        // --- STATE & TRANSLATIONS ---
         let currentLang = 'en';
         let currentTool = 'chat';
         let generatedCode = null;
         let codeExpiryTime = null;
         let codeTimerInterval = null;
         
-        // CAPTCHA State
         let holdTimer;
         let holdProgress = 0;
         let isVerifiedHuman = false;
 
-        // Usage Limits State
         const MAX_FREE_QUESTIONS = 30;
         let questionsUsed = parseInt(localStorage.getItem('hakim_used')) || 0;
         let isPremium = localStorage.getItem('hakim_premium') === 'true';
@@ -453,59 +287,17 @@
         const translations = {
             en: {
                 brandSub: "The Ultimate AI Hub",
-                toolChat: "Chat", toolImage: "Image", toolExcel: "Excel", toolPdf: "PDF", toolWord: "Word",
                 welcome: "Greetings. I am <span class='highlight'>Hakim Vahid</span>. I am an advanced super-intelligence. Created by <span class='highlight'>Vahid Nezamivand Chegane</span>.",
-                inputPlaceholder: "Ask Hakim anything...",
-                sendBtn: "Send",
-                modalTitle: "Access Hakim Vahid",
-                labelEmail: "Email Address", labelCode: "Verification Code", labelAge: "Age", labelRole: "Your Profession", labelGoal: "Primary Goal",
-                btnStart: "Initialize Platform",
-                btnSendCode: "Send Code",
-                codeSent: "Code Sent",
-                timerText: "Time left: ",
-                enterCode: "Enter 6-digit code",
-                toastTitle: "Your Verification Code",
-                btnCopy: "Copy",
-                copied: "Copied!",
+                inputPlaceholder: "Please register first to chat...",
                 statusLabel: "Free Questions Left Today:",
-                buyBtn: "⭐ Buy Premium",
-                limitTitle: "Daily Limit Reached",
-                limitText: "You have used all 30 free questions for today. Upgrade to Premium for unlimited fast access!",
-                btnCloseLimit: "Maybe Later",
                 slowDown: "(System busy... generating response)",
-                captchaTitle: "Human Verification",
-                captchaDesc: "Hold the button below to prove you are human.",
-                holdBtn: "Hold to Verify",
-                verified: "Verified!",
-                verifying: "Verifying..."
             },
             ar: {
                 brandSub: "المركز العالمي للذكاء الاصطناعي",
-                toolChat: "محادثة", toolImage: "صورة", toolExcel: "إكسل", toolPdf: "بي دي إف", toolWord: "وورد",
-                welcome: "تحياتي. أنا <span class='highlight'>حكيم وحيد</span>. أنا ذكاء خارق متقدم. صممه <span class='highlight' dir='ltr' style='font-family: Inter, sans-serif; display: inline-block;'>Vahid Nezamivand Chegane</span>.",
-                inputPlaceholder: "اسأل حكيماً أي شيء...",
-                sendBtn: "إرسال",
-                modalTitle: "دخول حكيم وحيد",
-                labelEmail: "البريد الإلكتروني", labelCode: "رمز التحقق", labelAge: "العمر", labelRole: "مهنتك", labelGoal: "الهدف الأساسي",
-                btnStart: "تهيئة المنصة",
-                btnSendCode: "إرسال الرمز",
-                codeSent: "تم الإرسال",
-                timerText: "الوقت المتبقي: ",
-                enterCode: "أدخل الرمز المكون من 6 أرقام",
-                toastTitle: "رمز التحقق الخاص بك",
-                btnCopy: "نسخ",
-                copied: "تم النسخ!",
+                welcome: "تحياتي. أنا <span class='highlight'>حكيم وحيد</span>. أنا ذكاء خارق متقدم. صممه <span class='highlight' dir='ltr' style='display: inline-block;'>Vahid Nezamivand Chegane</span>.",
+                inputPlaceholder: "الرجاء التسجيل أولاً للمحادثة...",
                 statusLabel: "الأسئلة المجانية المتبقية اليوم:",
-                buyBtn: "⭐ شراء النسخة المميزة",
-                limitTitle: "تم الوصول للحد الأقصى",
-                limitText: "لقد استخدمت جميع الأسئلة المجانية الـ 30 لهذا اليوم. قم بالترقية للحصول على وصول سريع غير محدود!",
-                btnCloseLimit: "ربما لاحقاً",
                 slowDown: "(النظام مشغول... جاري التفكير)",
-                captchaTitle: "التحقق من البشر",
-                captchaDesc: "اضغط مع الاستمرار على الزر أدناه لإثبات أنك إنسان.",
-                holdBtn: "اضغط للتحقق",
-                verified: "تم التحقق!",
-                verifying: "جاري التحقق..."
             }
         };
 
@@ -514,21 +306,34 @@
             setLang('en');
             updateStatusBar();
             
-            // Show CAPTCHA first. If passed, it will trigger the onboarding check.
-            document.getElementById('captcha-modal').style.display = 'flex';
+            // چک کردن اینکه آیا کاربر قبلاً ثبت‌نام کرده یا نه
+            const savedEmail = localStorage.getItem('hakim_user_email');
+            if(savedEmail) {
+                // اگر قبلاً ثبت‌نام کرده، چت را باز کن
+                isVerifiedHuman = true;
+                unlockChat();
+            } else {
+                // اگر ثبت‌نام نکرده، اول کپچا را نشان بده
+                document.getElementById('captcha-modal').style.display = 'flex';
+            }
         };
+
+        function unlockChat() {
+            document.getElementById('user-input').disabled = false;
+            document.getElementById('send-btn').disabled = false;
+            document.getElementById('user-input').placeholder = "Ask Hakim anything...";
+        }
 
         // --- CAPTCHA LOGIC ---
         function startHold(e) {
-            if (e) e.preventDefault(); // Prevent mobile text selection
+            if (e) e.preventDefault();
             holdProgress = 0;
             const btn = document.getElementById('hold-btn');
-            btn.querySelector('.hold-text').innerText = translations[currentLang].verifying;
+            btn.querySelector('.hold-text').innerText = "Verifying...";
             
             holdTimer = setInterval(() => {
-                holdProgress += 5; // Fills in 2 seconds (20 * 100ms)
+                holdProgress += 5;
                 document.getElementById('captcha-progress').style.width = holdProgress + '%';
-                
                 if (holdProgress >= 100) {
                     clearInterval(holdTimer);
                     verifySuccess();
@@ -541,36 +346,31 @@
             clearInterval(holdTimer);
             if (holdProgress < 100) {
                 document.getElementById('captcha-progress').style.width = '0%';
-                document.getElementById('hold-btn').querySelector('.hold-text').innerText = translations[currentLang].holdBtn;
+                document.getElementById('hold-btn').querySelector('.hold-text').innerText = "Hold to Verify";
             }
         }
 
         function verifySuccess() {
             isVerifiedHuman = true;
             const btn = document.getElementById('hold-btn');
-            btn.querySelector('.hold-text').innerText = translations[currentLang].verified;
+            btn.querySelector('.hold-text').innerText = "Verified!";
             btn.style.background = 'var(--primary)';
             btn.style.color = '#000';
             
             setTimeout(() => {
                 document.getElementById('captcha-modal').style.display = 'none';
-                // After verification, check if user needs onboarding
+                // اگر ایمیل ذخیره نشده بود، فرم ثبت‌نام را باز کن
                 if(!localStorage.getItem('hakim_user_email')) {
                     document.getElementById('onboarding-modal').style.display = 'flex';
+                } else {
+                    unlockChat();
                 }
-            }, 1000);
+            }, 800);
         }
 
         // --- UI UPDATES ---
         function updateStatusBar() {
-            const t = translations[currentLang];
-            document.getElementById('status-label').innerText = t.statusLabel;
-            document.getElementById('btn-buy-header').innerText = t.buyBtn;
-            document.getElementById('btn-buy-limit').innerText = t.buyBtn;
-            document.getElementById('btn-close-limit').innerText = t.btnCloseLimit;
-            document.getElementById('limit-title').innerText = t.limitTitle;
-            document.getElementById('limit-text').innerText = t.limitText;
-
+            document.getElementById('status-label').innerText = translations[currentLang].statusLabel;
             if (isPremium) {
                 document.getElementById('status-label').innerText = "Premium User (Unlimited)";
                 document.getElementById('status-count').innerText = "∞";
@@ -591,33 +391,9 @@
 
             const t = translations[lang];
             document.getElementById('brand-sub').innerText = t.brandSub;
-            document.getElementById('tool-chat').innerText = t.toolChat;
-            document.getElementById('tool-image').innerText = t.toolImage;
-            document.getElementById('tool-excel').innerText = t.toolExcel;
-            document.getElementById('tool-pdf').innerText = t.toolPdf;
-            document.getElementById('tool-word').innerText = t.toolWord;
             document.getElementById('welcome-msg').innerHTML = t.welcome;
-            document.getElementById('user-input').placeholder = t.inputPlaceholder;
-            document.getElementById('send-btn').innerText = t.sendBtn;
-            document.getElementById('modal-title').innerText = t.modalTitle;
-            document.getElementById('label-email').innerText = t.labelEmail;
-            document.getElementById('label-code').innerText = t.labelCode;
-            document.getElementById('label-age').innerText = t.labelAge;
-            document.getElementById('label-role').innerText = t.labelRole;
-            document.getElementById('label-goal').innerText = t.labelGoal;
-            document.getElementById('btn-start').innerText = t.btnStart;
-            document.getElementById('input-code').placeholder = t.enterCode;
-            document.getElementById('toast-copy-btn').innerText = t.btnCopy;
-            document.getElementById('toast-title').innerText = t.toastTitle;
-            
-            document.getElementById('captcha-title').innerText = t.captchaTitle;
-            document.getElementById('captcha-desc').innerText = t.captchaDesc;
-            if (!isVerifiedHuman) {
-                document.getElementById('hold-btn').querySelector('.hold-text').innerText = t.holdBtn;
-            }
-
-            if (generatedCode === null) {
-                document.getElementById('btn-send-code').innerText = t.btnSendCode;
+            if(!localStorage.getItem('hakim_user_email')) {
+                document.getElementById('user-input').placeholder = t.inputPlaceholder;
             }
             updateStatusBar();
         }
@@ -628,32 +404,14 @@
             element.classList.add('active');
         }
 
-        // --- ONBOARDING LOGIC ---
-        function showToast(code) {
-            document.getElementById('toast-code-text').innerText = code;
-            document.getElementById('toast').classList.add('show');
-            setTimeout(() => { document.getElementById('toast').classList.remove('show'); }, 15000);
-        }
-
-        function copyToastCode() {
-            const code = document.getElementById('toast-code-text').innerText;
-            navigator.clipboard.writeText(code).then(() => {
-                const btn = document.getElementById('toast-copy-btn');
-                const originalText = btn.innerText;
-                btn.innerText = translations[currentLang].copied;
-                btn.style.background = "var(--gold)";
-                setTimeout(() => { btn.innerText = originalText; btn.style.background = "var(--primary)"; }, 2000);
-            });
-        }
-
-        // ارسال درخواست به کلادفلر برای ثبت ایمیل و گرفتن کد
+        // --- ONBOARDING (REGISTRATION) ---
         async function sendVerificationCode() {
             const email = document.getElementById('input-email').value;
             const btn = document.getElementById('btn-send-code');
             const timerText = document.getElementById('timer-text');
             
             if(!email || !email.includes('@')) {
-                alert(currentLang === 'ar' ? "الرجاء إدخال بريد إلكتروني صالح" : "Please enter a valid email");
+                alert("Please enter a valid email");
                 return;
             }
 
@@ -670,14 +428,13 @@
                 const data = await response.json();
                 
                 if (data.error) {
-                    alert(data.error); // اگر ایمیل تکراری بود اینجا ارور می‌دهد
-                    btn.innerText = translations[currentLang].btnSendCode;
+                    alert(data.error);
+                    btn.innerText = "Send Code";
                     btn.disabled = false;
                     return;
                 }
 
-                // اگر موفق بود
-                btn.innerText = translations[currentLang].codeSent;
+                btn.innerText = "Code Sent!";
                 document.getElementById('verify-group').style.display = 'block';
                 
                 let timeLeft = 180;
@@ -688,10 +445,10 @@
                     timeLeft--;
                     let minutes = Math.floor(timeLeft / 60);
                     let seconds = timeLeft % 60;
-                    timerText.innerText = `${translations[currentLang].timerText}0${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    timerText.innerText = `Time left: 0${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
                     if (timeLeft <= 0) {
                         clearInterval(codeTimerInterval);
-                        btn.innerText = translations[currentLang].btnSendCode;
+                        btn.innerText = "Send Code";
                         btn.disabled = false;
                         timerText.style.display = 'none';
                     }
@@ -699,12 +456,11 @@
 
             } catch (error) {
                 alert("Connection error: " + error.message);
-                btn.innerText = translations[currentLang].btnSendCode;
+                btn.innerText = "Send Code";
                 btn.disabled = false;
             }
         }
 
-        // تایید کد و ساخت کاربر
         async function submitOnboarding() {
             const email = document.getElementById('input-email').value;
             const code = document.getElementById('input-code').value;
@@ -712,7 +468,7 @@
             const role = document.getElementById('input-role').value;
             
             if(!email || !code || !age || !role) {
-                alert(currentLang === 'ar' ? "الرجاء ملء جميع الحقول" : "Please fill all fields");
+                alert("Please fill all fields");
                 return;
             }
 
@@ -730,79 +486,65 @@
                 
                 if (data.error) {
                     alert(data.error);
-                    btn.innerText = translations[currentLang].btnStart;
+                    btn.innerText = "Initialize Platform";
                     return;
                 }
 
-                // ذخیره ایمیل کاربر در مرورگر برای درخواست‌های چت
+                // ذخیره ایمیل و سقف کاربر
                 localStorage.setItem('hakim_user_email', email);
+                localStorage.setItem('hakim_used', data.user.used);
                 
                 if(codeTimerInterval) clearInterval(codeTimerInterval);
                 document.getElementById('onboarding-modal').style.display = 'none';
-                updateStatusBar(); // آپدیت سقف
+                unlockChat();
+                updateStatusBar();
 
             } catch (error) {
                 alert("Connection error: " + error.message);
-                btn.innerText = translations[currentLang].btnStart;
+                btn.innerText = "Initialize Platform";
             }
         }
 
-        // --- CHAT & LIMIT LOGIC ---
+        // --- CHAT LOGIC ---
         function handleKeyPress(e) {
             if(e.key === 'Enter') sendMessage();
         }
 
-        function closeLimitModal() {
-            document.getElementById('limit-modal').style.display = 'none';
-        }
-
         async function buyPremium() {
+            const email = localStorage.getItem('hakim_user_email');
+            if(!email) {
+                alert("Please register first.");
+                return;
+            }
             try {
-                const btn = document.getElementById('btn-buy-header');
-                btn.innerText = "Redirecting...";
-                btn.disabled = true;
-
                 const response = await fetch("https://hakim-vahid.vahidmaykoltarh.workers.dev/create-payment", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: localStorage.getItem('hakim_user_email') })
+                    body: JSON.stringify({ email: email })
                 });
-                
                 const data = await response.json();
-                
-                if (data.invoice_url) {
-                    window.location.href = data.invoice_url;
-                } else {
-                    alert("Error: " + JSON.stringify(data));
-                    btn.innerText = translations[currentLang].buyBtn;
-                    btn.disabled = false;
-                }
+                if (data.invoice_url) window.location.href = data.invoice_url;
+                else alert("Error creating payment.");
             } catch (error) {
-                alert("Connection error: " + error.message);
+                alert("Connection error.");
             }
         }
 
         async function sendMessage() {
-            if (!isVerifiedHuman) {
-                alert("Please complete human verification.");
-                return;
-            }
-            
             const userEmail = localStorage.getItem('hakim_user_email');
             if (!userEmail) {
                 document.getElementById('onboarding-modal').style.display = 'flex';
                 return;
             }
 
-            // 1. Check Limits
-            if (!isPremium && questionsUsed >= MAX_FREE_QUESTIONS) {
-                document.getElementById('limit-modal').style.display = 'flex';
-                return;
-            }
-
             const input = document.getElementById('user-input');
             const text = input.value.trim();
             if(!text) return;
+
+            if (!isPremium && questionsUsed >= MAX_FREE_QUESTIONS) {
+                alert("Daily limit reached. Please buy premium.");
+                return;
+            }
 
             const output = document.getElementById('chat-output');
             const userDiv = document.createElement('div');
@@ -813,59 +555,58 @@
             input.value = '';
             output.scrollTop = output.scrollHeight;
 
-            // 2. Increment Usage (if free)
-            if (!isPremium) {
-                questionsUsed++;
-                localStorage.setItem('hakim_used', questionsUsed);
-                updateStatusBar();
-            }
-
-            // 3. Determine Delay (Gradual Throttling for free users)
+            // کندی تدریجی
             let delayTime = 0;
             if (!isPremium) {
-                if (questionsUsed > 20) delayTime = 7000; // 7 seconds
-                else if (questionsUsed > 10) delayTime = 3000; // 3 seconds
-                else delayTime = 1000; // 1 second
+                if (questionsUsed > 20) delayTime = 5000;
+                else if (questionsUsed > 10) delayTime = 2500;
+                else delayTime = 800;
             }
 
-            // Show loading message
             const aiDiv = document.createElement('div');
             aiDiv.className = 'message msg-ai';
-            const loadingText = currentLang === 'ar' ? "جاري التفكير..." : "Thinking...";
-            aiDiv.innerText = loadingText;
+            aiDiv.innerText = "Thinking...";
             output.appendChild(aiDiv);
             output.scrollTop = output.scrollHeight;
 
-            // 4. Apply Artificial Delay
             if (delayTime > 0) {
-                const slowText = translations[currentLang].slowDown;
-                setTimeout(() => { aiDiv.innerText = slowText; }, 1000);
+                setTimeout(() => { aiDiv.innerText = translations[currentLang].slowDown; }, 1000);
                 await new Promise(resolve => setTimeout(resolve, delayTime));
             }
 
-            // 5. Fetch AI Response
             try {
                 const response = await fetch("https://hakim-vahid.vahidmaykoltarh.workers.dev/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        prompt: text,
-                        email: userEmail
-                    })
+                    body: JSON.stringify({ prompt: text, email: userEmail })
                 });
                 
                 const data = await response.json();
                 
+                if(data.reply === "UNAUTHORIZED") {
+                    localStorage.removeItem('hakim_user_email');
+                    alert("Session expired. Please register again.");
+                    document.getElementById('onboarding-modal').style.display = 'flex';
+                    return;
+                }
+
                 if(data.reply === "LIMIT_REACHED") {
-                    document.getElementById('limit-modal').style.display = 'flex';
                     aiDiv.innerText = "Daily limit reached.";
-                } else if(data.reply) {
+                    alert("You have reached your daily 30 free questions. Please buy premium.");
+                    return;
+                }
+
+                if(data.reply) {
                     aiDiv.innerText = data.reply;
+                    // آپدیت سقف از دیتابیس
+                    questionsUsed = data.used;
+                    localStorage.setItem('hakim_used', questionsUsed);
+                    updateStatusBar();
                 } else {
-                    aiDiv.innerText = "Error: " + (data.error || "Unknown error");
+                    aiDiv.innerText = "Error: Unknown";
                 }
             } catch (error) {
-                aiDiv.innerText = "Connection error: " + error.message;
+                aiDiv.innerText = "Connection error.";
             }
             output.scrollTop = output.scrollHeight;
         }
