@@ -9,25 +9,40 @@ export default {
 
     if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders, status: 204 });
 
-    // --- ۱. درخواست ثبت‌نام (ارسال کد) ---
+    // --- ۱. ثبت‌نام و ارسال ایمیل واقعی ---
     if (url.pathname === "/register" && request.method === "POST") {
       try {
         const { email } = await request.json();
         
-        // چک کردن اینکه آیا کاربر از قبل وجود دارد یا نه
         const existingUser = await env.HAKIM_DB.get(`user_${email}`);
         if (existingUser) {
-          return new Response(JSON.stringify({ error: "This email is already registered. Please log in or use another email." }), { headers: corsHeaders });
+          return new Response(JSON.stringify({ error: "This email is already registered. Please log in." }), { headers: corsHeaders });
         }
 
-        // ساخت کد ۶ رقمی و ذخیره در دیتابیس به مدت ۵ دقیقه
         const code = Math.floor(100000 + Math.random() * 900000).toString();
-        await env.HAKIM_DB.put(`code_${email}`, code, { expirationTtl: 300 });
+        await env.HAKIM_DB.put(`code_${email}`, code, { expirationTtl: 300 }); // ۵ دقیقه اعتبار
 
-        // اینجا کد در کنسول کلادفلر ثبت می‌شود (برای ارسال واقعی ایمیل بعداً وصل می‌کنیم)
-        console.log(`[NEW REGISTRATION] Email: ${email} | Code: ${code}`);
+        // ارسال ایمیل واقعی با Resend
+        const emailResponse = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${env.RESEND_API_KEY}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            from: "Hakim Vahid <onboarding@resend.dev>", // فرستنده
+            to: [email], // ایمیل کاربر
+            subject: "Your Hakim Vahid Verification Code",
+            html: `<strong>Your verification code is: ${code}</strong><p>This code expires in 5 minutes.</p>`
+          })
+        });
 
-        return new Response(JSON.stringify({ success: "Code generated. Check your email (or Cloudflare logs for now)." }), { headers: corsHeaders });
+        if (!emailResponse.ok) {
+            const err = await emailResponse.text();
+            return new Response(JSON.stringify({ error: "Email delivery failed: " + err }), { headers: corsHeaders });
+        }
+
+        return new Response(JSON.stringify({ success: "Code sent to your email." }), { headers: corsHeaders });
       } catch (err) {
         return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: corsHeaders });
       }
@@ -43,11 +58,8 @@ export default {
           return new Response(JSON.stringify({ error: "Invalid or expired code." }), { headers: corsHeaders });
         }
 
-        // ذخیره کاربر نهایی در دیتابیس
         const userData = { email, age, role, used: 0, isPremium: false, lastDate: new Date().toDateString() };
         await env.HAKIM_DB.put(`user_${email}`, JSON.stringify(userData));
-        
-        // پاک کردن کد تایید
         await env.HAKIM_DB.delete(`code_${email}`);
 
         return new Response(JSON.stringify({ success: "Registration successful!", user: userData }), { headers: corsHeaders });
@@ -56,12 +68,11 @@ export default {
       }
     }
 
-    // --- ۳. سیستم چت و مدیریت محدودیت ---
+    // --- ۳. چت و مدیریت محدودیت ---
     if (request.method === "POST" && url.pathname === "/") {
       try {
         const { prompt, email } = await request.json();
         
-        // بررسی وجود کاربر
         let user = null;
         if (email) {
             const userStr = await env.HAKIM_DB.get(`user_${email}`);
@@ -69,28 +80,24 @@ export default {
         }
 
         if (!user) {
-            return new Response(JSON.stringify({ reply: "Please register first." }), { headers: corsHeaders });
+            return new Response(JSON.stringify({ reply: "UNAUTHORIZED" }), { headers: corsHeaders }); // کاربر وجود ندارد
         }
 
-        // چک کردن روز جدید (ریست کردن سقف)
         const today = new Date().toDateString();
         if (user.lastDate !== today) {
             user.used = 0;
             user.lastDate = today;
         }
 
-        // چک کردن سقف مجاز برای کاربر رایگان
         if (!user.isPremium && user.used >= 30) {
-            return new Response(JSON.stringify({ reply: "LIMIT_REACHED" }), { headers: corsHeaders });
+            return new Response(JSON.stringify({ reply: "LIMIT_REACHED", used: user.used }), { headers: corsHeaders });
         }
 
-        // افزایش تعداد مصرف
         if (!user.isPremium) {
             user.used += 1;
             await env.HAKIM_DB.put(`user_${email}`, JSON.stringify(user));
         }
 
-        // اتصال به هوش مصنوعی
         const accountId = "27afaa438dc9c77044d4662c822d58d2"; 
         const gatewayUrl = `https://gateway.ai.cloudflare.com/v1/${accountId}/my-gateway/groq/openai/v1/chat/completions`;
 
@@ -139,7 +146,7 @@ export default {
         }
     }
     
-    // --- ۵. وب‌هوک پرداخت (تایید VIP) ---
+    // --- ۵. وب‌هوک پرداخت ---
     if (url.pathname === "/webhook" && request.method === "POST") {
         const body = await request.json();
         if (body.payment_status === 'finished') {
