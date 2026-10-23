@@ -17,10 +17,8 @@ export default {
     try {
       const { prompt } = await request.json();
       
-      // کد حساب کلادفلر تو به صورت خودکار قرار داده شده است
+      // کد حساب و نام دروازه شما از قبل تنظیم شده است
       const accountId = "27afaa438dc9c77044d4662c822d58d2"; 
-      
-      // آدرس دروازه (my-gateway)
       const gatewayUrl = `https://gateway.ai.cloudflare.com/v1/${accountId}/my-gateway/groq/openai/v1/chat/completions`;
 
       const headers = {
@@ -33,7 +31,8 @@ export default {
         method: "POST",
         headers: headers,
         body: JSON.stringify({
-          model: "llama-3.1-8b-instant",
+          // مدل جدید و فعال Groq
+          model: "openai/gpt-oss-120b",
           messages: [{ role: "user", content: prompt }]
         })
       });
