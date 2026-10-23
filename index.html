@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakim Vahid | حكيم وحيد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --card-bg: #1e293b;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --gold: #eab308;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', 'Cairo', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        [dir="rtl"] body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        [dir="rtl"] .lang-switch {
+            right: auto;
+            left: 20px;
+        }
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .lang-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        /* Brand */
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 40px;
+        }
+        .brand h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #10b981, #3b82f6, #eab308);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        .brand p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Tools Grid */
+        .tools {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            width: 100%;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            scrollbar-width: none; /* Firefox */
+        }
+        .tools::-webkit-scrollbar {
+            display: none; /* Chrome */
+        }
+        .tool {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 15px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            min-width: 100px;
+            transition: 0.3s;
+        }
+        .tool:hover, .tool.active {
+            border-color: var(--primary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        .tool-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .tool-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Chat Area */
+        .chat-container {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .chat-output {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .message {
+            padding: 12px 18px;
+            border-radius: 12px;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+        .msg-ai {
+            background: #334155;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+        [dir="rtl"] .msg-ai {
+            align-self: flex-start;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 0;
+        }
+        .msg-user {
+            background: var(--primary);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+        [dir="rtl"] .msg-user {
+            align-self: flex-end;
+            border-bottom-right-radius: 12px;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Input Area */
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 15px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+        input[type="text"]:focus {
+            border-color: var(--primary);
+        }
+        button.send-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 0 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        button.send-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Onboarding Modal (Hidden by default) */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid var(--border);
+        }
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--gold);
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: inherit;
+        }
+        .modal button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Language Switcher -->
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('ar')">AR</button>
+    </div>
+
+    <div class="container">
+        <!-- Brand -->
+        <div class="brand">
+            <h1 id="brand-title">Hakim Vahid</h1>
+            <p id="brand-sub">Your Digital Architect | Created by Vahid Nezamivand Chegane</p>
+        </div>
+
+        <!-- Tools -->
+        <div class="tools">
+            <div class="tool active" onclick="selectTool('chat', this)">
+                <div class="tool-icon">💬</div>
+                <div class="tool-name" id="tool-chat">Chat</div>
+            </div>
+            <div class="tool" onclick="selectTool('image', this)">
+                <div class="tool-icon">🎨</div>
+                <div class="tool-name" id="tool-image">Image</div>
+            </div>
+            <div class="tool" onclick="selectTool('excel', this)">
+                <div class="tool-icon">📊</div>
+                <div class="tool-name" id="tool-excel">Excel</div>
+            </div>
+            <div class="tool" onclick="selectTool('pdf', this)">
+                <div class="tool-icon">📄</div>
+                <div class="tool-name" id="tool-pdf">PDF</div>
+            </div>
+            <div class="tool" onclick="selectTool('word', this)">
+                <div class="tool-icon">📝</div>
+                <div class="tool-name" id="tool-word">Word</div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-container">
+            <div class="chat-output" id="chat-output">
+                <div class="message msg-ai" id="welcome-msg">
+                    Hello! I am Hakim. Select a tool and let's start.
+                </div>
+            </div>
+            <div class="input-area">
+                <input type="text" id="user-input" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()" id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Modal (Registration form) -->
+    <div class="modal-overlay" id="onboarding-modal">
+        <div class="modal">
+            <h2 id="modal-title">Welcome to Hakim</h2>
+            <div class="form-group">
+                <label id="label-email">Email</label>
+                <input type="email" id="input-email" placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+                <label id="label-role">Your Role / Profession</label>
+                <input type="text" id="input-role" placeholder="Engineer, Student, etc.">
+            </div>
+            <div class="form-group">
+                <label id="label-goal">What is your goal today?</label>
+                <select id="input-goal">
+                    <option value="writing">Writing & Research</option>
+                    <option value="coding">Coding & Analysis</option>
+                    <option value="business">Business & Finance</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button onclick="submitOnboarding()" id="btn-start">Start Using Hakim</button>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'en';
+        let currentTool = 'chat';
+
+        // Translation Dictionary
+        const translations = {
+            en: {
+                brandTitle: "Hakim Vahid",
+                brandSub: "Your Digital Architect | Created by Vahid Nezamivand Chegane",
+                toolChat: "Chat", toolImage: "Image", toolExcel: "Excel", toolPdf: "PDF", toolWord: "Word",
+                welcome: "Hello! I am Hakim. Select a tool and let's start.",
+                inputPlaceholder: "Type your message here...",
+                sendBtn: "Send",
+                modalTitle: "Welcome to Hakim",
+                labelEmail: "Email", labelRole: "Your Role / Profession", labelGoal: "What is your goal today?",
+                btnStart: "Start Using Hakim"
+            },
+            ar: {
+                brandTitle: "حكيم وحيد",
+                brandSub: "مهندسك الرقمي | صممه وحيد نظامي وند تشيغانه",
+                toolChat: "محادثة", toolImage: "صورة", toolExcel: "إكسل", toolPdf: "بي دي إف", toolWord: "وورد",
+                welcome: "مرحباً! أنا حكيم. اختر أداة ولنبدأ.",
+                inputPlaceholder: "اكتب رسالتك هنا...",
+                sendBtn: "إرسال",
+                modalTitle: "مرحباً بك في حكيم",
+                labelEmail: "البريد الإلكتروني", labelRole: "وظيفتك / تخصصك", labelGoal: "ما هو هدفك اليوم؟",
+                btnStart: "ابدأ استخدام حكيم"
+            }
+        };
+
+        // Initialize with Onboarding Modal showing
+        window.onload = () => {
+            document.getElementById('onboarding-modal').style.display = 'flex';
+        };
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.getElementById('html-root').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            document.getElementById('html-root').setAttribute('lang', lang);
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update Texts
+            const t = translations[lang];
+            document.getElementById('brand-title').innerText = t.brandTitle;
+            document.getElementById('brand-sub').innerText = t.brandSub;
+            document.getElementById('tool-chat').innerText = t.toolChat;
+            document.getElementById('tool-image').innerText = t.toolImage;
+            document.getElementById('tool-excel').innerText = t.toolExcel;
+            document.getElementById('tool-pdf').innerText = t.toolPdf;
+            document.getElementById('tool-word').innerText = t.toolWord;
+            document.getElementById('welcome-msg').innerText = t.welcome;
+            document.getElementById('user-input').placeholder = t.inputPlaceholder;
+            document.getElementById('send-btn').innerText = t.sendBtn;
+            document.getElementById('modal-title').innerText = t.modalTitle;
+            document.getElementById('label-email').innerText = t.labelEmail;
+            document.getElementById('label-role').innerText = t.labelRole;
+            document.getElementById('label-goal').innerText = t.labelGoal;
+            document.getElementById('btn-start').innerText = t.btnStart;
+        }
+
+        function selectTool(tool, element) {
+            currentTool = tool;
+            document.querySelectorAll('.tool').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function submitOnboarding() {
+            const email = document.getElementById('input-email').value;
+            if(!email) {
+                alert(currentLang === 'ar' ? "الرجاء إدخال البريد الإلكتروني" : "Please enter your email");
+                return;
+            }
+            // Hide modal
+            document.getElementById('onboarding-modal').style.display = 'none';
+            
+            // In the future, this is where we save the user to Cloudflare KV
+            // and redirect to the main app.
+        }
+
+        function handleKeyPress(e) {
+            if(e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const output = document.getElementById('chat-output');
+            
+            // Add user message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message msg-user';
+            userDiv.innerText = text;
+            output.appendChild(userDiv);
+            
+            input.value = '';
+            output.scrollTop = output.scrollHeight;
+
+            // Simulate AI response (This will be replaced by Cloudflare Worker API later)
+            setTimeout(() => {
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'message msg-ai';
+                aiDiv.innerText = currentLang === 'ar' 
+                    ? `(هذا رد تجريبي على أداة: ${currentTool})` 
+                    : `(This is a dummy response for tool: ${currentTool})`;
+                output.appendChild(aiDiv);
+                output.scrollTop = output.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
