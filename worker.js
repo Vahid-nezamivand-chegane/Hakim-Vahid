@@ -24,14 +24,21 @@ export default {
           "Authorization": `Bearer ${env.GROQ_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
+          model: "llama-3.1-8b-instant",
           messages: [{ role: "user", content: prompt }]
         })
       });
 
       const data = await response.json();
       
-      let aiText = "Sorry, I couldn't process that.";
+      // اگر Groq خطایی داده باشد، دقیقاً همان خطا را به ما نشان بده
+      if (data.error) {
+          return new Response(JSON.stringify({ reply: "Groq Error: " + data.error.message }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+      }
+
+      let aiText = "No response from AI.";
       if(data.choices && data.choices.length > 0) {
         aiText = data.choices[0].message.content;
       }
