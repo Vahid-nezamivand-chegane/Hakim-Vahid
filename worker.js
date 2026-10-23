@@ -17,28 +17,29 @@ export default {
     try {
       const { prompt } = await request.json();
       
-      // 🚨 مهم: در خط زیر، YOUR_ACCOUNT_ID را با کد حساب کلادفلر خودت جایگزین کن
-      const accountId = "YOUR_ACCOUNT_ID"; 
+      // کد حساب کلادفلر تو به صورت خودکار قرار داده شده است
+      const accountId = "27afaa438dc9c77044d4662c822d58d2"; 
       
-      // آدرس دروازه امن کلادفلر برای عبور از فیلترهای Groq
-      const gatewayUrl = `https://gateway.ai.cloudflare.com/v1/${accountId}/hakim-gateway/groq/openai/v1/chat/completions`;
+      // آدرس دروازه (my-gateway)
+      const gatewayUrl = `https://gateway.ai.cloudflare.com/v1/${accountId}/my-gateway/groq/openai/v1/chat/completions`;
+
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${env.GROQ_API_KEY}`,
+        "User-Agent": "Mozilla/5.0 (compatible; HakimVahid/1.0)",
+      };
 
       const response = await fetch(gatewayUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${env.GROQ_API_KEY}`,
-          "User-Agent": "Mozilla/5.0 (compatible; HakimVahid/1.0)",
-        },
+        headers: headers,
         body: JSON.stringify({
-          model: "llama-3.1-8b-instant", // مدل استاندارد و پایدار Groq
+          model: "llama-3.1-8b-instant",
           messages: [{ role: "user", content: prompt }]
         })
       });
 
       const data = await response.json();
       
-      // سیستم خطایابی دقیق: اگر پاسخی غیر از حالت استاندارد بود، دقیقاً بگو چه خبر است
       if (data.error) {
           return new Response(JSON.stringify({ reply: "API Error: " + JSON.stringify(data.error) }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
@@ -51,7 +52,6 @@ export default {
           });
       }
 
-      // اگر همه چیز درست بود، متن جواب را برمی‌گردانیم
       const aiText = data.choices[0].message.content;
 
       return new Response(JSON.stringify({ reply: aiText }), {
