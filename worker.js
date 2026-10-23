@@ -17,21 +17,25 @@ export default {
     try {
       const { prompt } = await request.json();
       
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      // ⚠️ اینجا آدرس دروازه (Gateway) خودت را قرار بده
+      // به جای YOUR_ACCOUNT_ID، کد حساب خودت را بگذار
+      const gatewayUrl = "https://gateway.ai.cloudflare.com/v1/YOUR_ACCOUNT_ID/hakim-gateway/groq/openai/v1/chat/completions";
+
+      const response = await fetch(gatewayUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${env.GROQ_API_KEY}`,
+          "User-Agent": "Mozilla/5.0 (compatible; HakimVahid/1.0)", // جلوگیری از بلاک شدن توسط WAF
         },
         body: JSON.stringify({
-          model: "openai/gpt-oss-120b",
+          model: "openai/gpt-oss-120b", // مدل جدید و مجاز
           messages: [{ role: "user", content: prompt }]
         })
       });
 
       const data = await response.json();
       
-      // اگر Groq خطایی داده باشد، دقیقاً همان خطا را به ما نشان بده
       if (data.error) {
           return new Response(JSON.stringify({ reply: "Groq Error: " + data.error.message }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" }
