@@ -209,7 +209,6 @@
                 <div class="message msg-ai" id="welcome-msg"></div>
             </div>
             <div class="input-area">
-                <!-- ورودی‌ها در ابتدا قفل هستند تا کاربر ثبت‌نام کند -->
                 <input type="text" id="user-input" placeholder="Please register first to chat..." onkeypress="handleKeyPress(event)" disabled>
                 <button class="send-btn" onclick="sendMessage()" id="send-btn" disabled>Send</button>
             </div>
@@ -306,14 +305,11 @@
             setLang('en');
             updateStatusBar();
             
-            // چک کردن اینکه آیا کاربر قبلاً ثبت‌نام کرده یا نه
             const savedEmail = localStorage.getItem('hakim_user_email');
             if(savedEmail) {
-                // اگر قبلاً ثبت‌نام کرده، چت را باز کن
                 isVerifiedHuman = true;
                 unlockChat();
             } else {
-                // اگر ثبت‌نام نکرده، اول کپچا را نشان بده
                 document.getElementById('captcha-modal').style.display = 'flex';
             }
         };
@@ -359,7 +355,6 @@
             
             setTimeout(() => {
                 document.getElementById('captcha-modal').style.display = 'none';
-                // اگر ایمیل ذخیره نشده بود، فرم ثبت‌نام را باز کن
                 if(!localStorage.getItem('hakim_user_email')) {
                     document.getElementById('onboarding-modal').style.display = 'flex';
                 } else {
@@ -427,13 +422,15 @@
                 
                 const data = await response.json();
                 
+                // اگر سرور ارور داد، دکمه را برگردان و ارور را نشان بده
                 if (data.error) {
-                    alert(data.error);
+                    alert("Server Error: " + data.error);
                     btn.innerText = "Send Code";
                     btn.disabled = false;
                     return;
                 }
 
+                // اگر موفق بود
                 btn.innerText = "Code Sent!";
                 document.getElementById('verify-group').style.display = 'block';
                 
@@ -455,7 +452,7 @@
                 }, 1000);
 
             } catch (error) {
-                alert("Connection error: " + error.message);
+                alert("Connection Error: " + error.message);
                 btn.innerText = "Send Code";
                 btn.disabled = false;
             }
@@ -485,12 +482,11 @@
                 const data = await response.json();
                 
                 if (data.error) {
-                    alert(data.error);
+                    alert("Verification Error: " + data.error);
                     btn.innerText = "Initialize Platform";
                     return;
                 }
 
-                // ذخیره ایمیل و سقف کاربر
                 localStorage.setItem('hakim_user_email', email);
                 localStorage.setItem('hakim_used', data.user.used);
                 
@@ -500,7 +496,7 @@
                 updateStatusBar();
 
             } catch (error) {
-                alert("Connection error: " + error.message);
+                alert("Connection Error: " + error.message);
                 btn.innerText = "Initialize Platform";
             }
         }
@@ -555,7 +551,6 @@
             input.value = '';
             output.scrollTop = output.scrollHeight;
 
-            // کندی تدریجی
             let delayTime = 0;
             if (!isPremium) {
                 if (questionsUsed > 20) delayTime = 5000;
@@ -598,12 +593,11 @@
 
                 if(data.reply) {
                     aiDiv.innerText = data.reply;
-                    // آپدیت سقف از دیتابیس
                     questionsUsed = data.used;
                     localStorage.setItem('hakim_used', questionsUsed);
                     updateStatusBar();
                 } else {
-                    aiDiv.innerText = "Error: Unknown";
+                    aiDiv.innerText = "Error: Unknown response";
                 }
             } catch (error) {
                 aiDiv.innerText = "Connection error.";
