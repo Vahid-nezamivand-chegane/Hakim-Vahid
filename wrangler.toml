@@ -1,3 +1,7 @@
-name = "hakim-vahid-brain"
+name = "hakim-vahid"
 main = "worker.js"
 compatibility_date = "2024-02-22"
+
+[[kv_namespaces]]
+binding = "HAKIM_DB"
+id = "89265a13453841b1aa990456dbbba71f"
